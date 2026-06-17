@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 import os
 
 from app.database import engine, Base
-from app.routers import trades, journal, entry_models, dashboard, mt5_sync, rules, edge
+from app.routers import trades, journal, entry_models, dashboard, mt5_sync, rules, edge, news
 
 Base.metadata.create_all(bind=engine)
 
@@ -29,6 +29,7 @@ app.include_router(dashboard.router)
 app.include_router(mt5_sync.router)
 app.include_router(rules.router)
 app.include_router(edge.router)
+app.include_router(news.router)
 
 
 @app.get("/api/health")
