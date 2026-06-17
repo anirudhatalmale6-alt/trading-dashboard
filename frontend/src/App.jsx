@@ -6,6 +6,7 @@ import TradeDetail from './pages/TradeDetail'
 import EntryModels from './pages/EntryModels'
 import Charts from './pages/Charts'
 import Rules from './pages/Rules'
+import Edge from './pages/Edge'
 import {
   LayoutDashboard,
   BookOpen,
@@ -15,10 +16,12 @@ import {
   Sun,
   Moon,
   TrendingUp,
+  Zap,
 } from 'lucide-react'
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/edge', icon: Zap, label: 'Edge' },
   { to: '/journal', icon: BookOpen, label: 'Trade Journal' },
   { to: '/entry-models', icon: Target, label: 'Entry Models' },
   { to: '/charts', icon: LineChart, label: 'Charts' },
@@ -90,6 +93,7 @@ export default function App() {
               <Route path="/journal" element={<TradeJournal />} />
               <Route path="/journal/:id" element={<TradeDetail />} />
               <Route path="/entry-models" element={<EntryModels />} />
+              <Route path="/edge" element={<Edge />} />
               <Route path="/charts" element={<Charts />} />
               <Route path="/rules" element={<Rules />} />
             </Routes>

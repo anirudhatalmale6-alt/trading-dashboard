@@ -139,6 +139,39 @@ class TradingRule(Base):
     created_at = Column(DateTime, server_default=func.now())
 
 
+class EdgePlan(Base):
+    __tablename__ = "edge_plans"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(200), nullable=False)
+    subtitle = Column(String(200), nullable=True)
+    plan_type = Column(String(100), nullable=True)
+    is_active = Column(Boolean, default=True)
+    is_preset = Column(Boolean, default=False)
+    color = Column(String(20), default="#ef4444")
+    trades_taken = Column(Integer, default=0)
+    win_rate = Column(Float, default=0)
+    net_pnl = Column(Float, default=0)
+    compliance = Column(Float, default=0)
+    max_trades_per_day = Column(Integer, nullable=True)
+    max_daily_loss = Column(Float, nullable=True)
+    max_daily_profit = Column(Float, nullable=True)
+    risk_per_trade = Column(Float, nullable=True)
+    trading_window_start = Column(String(10), nullable=True)
+    trading_window_end = Column(String(10), nullable=True)
+    trading_window_tz = Column(String(20), default="UTC")
+    charting_process = Column(JSON, nullable=True, default=list)
+    entry_criteria = Column(JSON, nullable=True, default=list)
+    entry_model_screenshots = Column(JSON, nullable=True, default=list)
+    trade_management_rules = Column(Text, nullable=True)
+    exit_criteria = Column(Text, nullable=True)
+    trading_notes = Column(JSON, nullable=True, default=list)
+    last_reviewed = Column(DateTime, nullable=True)
+    sort_order = Column(Integer, default=0)
+    created_at = Column(DateTime, server_default=func.now())
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+
+
 class DailyStats(Base):
     __tablename__ = "daily_stats"
 

@@ -65,4 +65,16 @@ export const api = {
 
   syncMT5: (data) => request('/mt5/sync', { method: 'POST', body: data }),
   getAccountHistory: () => request('/mt5/account'),
+
+  getEdgePlans: () => request('/edge'),
+  getEdgePlan: (id) => request(`/edge/${id}`),
+  createEdgePlan: (data) => request('/edge', { method: 'POST', body: data }),
+  updateEdgePlan: (id, data) => request(`/edge/${id}`, { method: 'PUT', body: data }),
+  deleteEdgePlan: (id) => request(`/edge/${id}`, { method: 'DELETE' }),
+  reviewEdgePlan: (id) => request(`/edge/${id}/review`, { method: 'POST' }),
+  uploadEdgeScreenshot: (id, file) => {
+    const form = new FormData()
+    form.append('file', file)
+    return request(`/edge/${id}/screenshot`, { method: 'POST', body: form })
+  },
 }
