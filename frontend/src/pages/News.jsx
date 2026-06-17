@@ -37,7 +37,11 @@ export default function News() {
     setLoading(false)
   }
 
-  useEffect(() => { fetchNews() }, [])
+  useEffect(() => {
+    fetchNews()
+    const interval = setInterval(fetchNews, 300000)
+    return () => clearInterval(interval)
+  }, [])
 
   const handleRefresh = async () => {
     setRefreshing(true)

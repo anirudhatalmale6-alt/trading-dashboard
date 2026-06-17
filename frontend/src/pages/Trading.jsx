@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { AlertTriangle, Star, Search, ChevronUp, ChevronDown } from 'lucide-react'
 import { api } from '../utils/api'
 import { formatCurrency, formatPnl, pnlColor, formatDateTime } from '../utils/format'
@@ -81,8 +81,44 @@ export default function Trading() {
     w.symbol.toLowerCase().includes(watchSearch.toLowerCase())
   )
 
-  const tvSymbol = symbol === 'DXY' ? 'TVC:DXY' : `FX:${symbol}`
-  const widgetUrl = `https://s.tradingview.com/widgetembed/?frameElementId=tradingview_trading&symbol=${tvSymbol}&interval=${timeframe}&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&withdateranges=1&showpopupbutton=0&locale=en&allow_symbol_change=1&hotlist=1&calendar=1`
+  const tvSymbol = symbol === 'DXY' ? 'TVC:DXY' : symbol === 'XAUUSD' ? 'OANDA:XAUUSD' : `FX:${symbol}`
+  const chartRef = useRef(null)
+
+  useEffect(() => {
+    if (!chartRef.current) return
+    chartRef.current.innerHTML = ''
+    const script = document.createElement('script')
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js'
+    script.type = 'text/javascript'
+    script.async = true
+    script.innerHTML = JSON.stringify({
+      autosize: true,
+      symbol: tvSymbol,
+      interval: timeframe,
+      timezone: 'Etc/UTC',
+      theme: 'dark',
+      style: '1',
+      locale: 'en',
+      allow_symbol_change: true,
+      save_image: true,
+      calendar: false,
+      hide_volume: false,
+      support_host: 'https://www.tradingview.com',
+      enable_publishing: false,
+      withdateranges: true,
+    })
+    const container = document.createElement('div')
+    container.className = 'tradingview-widget-container'
+    container.style.height = '100%'
+    container.style.width = '100%'
+    const inner = document.createElement('div')
+    inner.className = 'tradingview-widget-container__widget'
+    inner.style.height = 'calc(100% - 32px)'
+    inner.style.width = '100%'
+    container.appendChild(inner)
+    container.appendChild(script)
+    chartRef.current.appendChild(container)
+  }, [tvSymbol, timeframe])
 
   return (
     <div className="-m-4 md:-m-6 flex flex-col h-[calc(100vh-80px)] md:h-[calc(100vh-48px)]">
@@ -147,10 +183,8 @@ export default function Trading() {
             </select>
           </div>
 
-          {/* TradingView chart */}
-          <div className="flex-1 min-h-0">
-            <iframe key={`${symbol}-${timeframe}`} src={widgetUrl} className="w-full h-full border-0" allowFullScreen />
-          </div>
+          {/* TradingView realtime chart */}
+          <div className="flex-1 min-h-0" ref={chartRef} />
 
           {/* Bottom positions panel */}
           <div className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800" style={{ height: '160px' }}>
