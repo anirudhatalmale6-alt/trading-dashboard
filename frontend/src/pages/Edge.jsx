@@ -356,12 +356,15 @@ export default function Edge() {
 
             {/* Active toggle + Plan type */}
             <div className="flex items-center gap-4 mb-6">
-              <div className="flex items-center gap-2">
-                <div className={`w-10 h-5 rounded-full relative cursor-default ${selected.is_active ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-gray-600'}`}>
-                  <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${selected.is_active ? 'left-5' : 'left-0.5'}`} />
+              <button className="flex items-center gap-2" onClick={async () => {
+                await api.updateEdgePlan(selected.id, { is_active: !selected.is_active })
+                loadPlans()
+              }}>
+                <div className={`w-10 h-5 rounded-full relative cursor-pointer transition-colors ${selected.is_active ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-gray-600'}`}>
+                  <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all ${selected.is_active ? 'left-5' : 'left-0.5'}`} />
                 </div>
                 <span className="text-sm font-medium">{selected.is_active ? 'Active' : 'Inactive'}</span>
-              </div>
+              </button>
             </div>
 
             {selected.plan_type && (

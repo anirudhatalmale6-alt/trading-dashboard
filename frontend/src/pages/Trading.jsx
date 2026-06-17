@@ -6,7 +6,11 @@ import { formatCurrency, formatPnl, pnlColor, formatDateTime } from '../utils/fo
 const SYMBOLS = [
   'EURUSD', 'GBPUSD', 'USDJPY', 'USDCHF', 'AUDUSD', 'NZDUSD', 'USDCAD',
   'AUDCAD', 'AUDCHF', 'AUDJPY', 'AUDNZD', 'EURGBP', 'EURJPY',
-  'XAUUSD', 'BTCUSD', 'US500', 'US30', 'NAS100',
+  'GBPJPY', 'NZDJPY', 'CADJPY', 'CHFJPY',
+  'EURAUD', 'EURNZD', 'EURCAD', 'EURCHF',
+  'GBPAUD', 'GBPNZD', 'GBPCAD', 'GBPCHF',
+  'AUDNZD', 'NZDCAD', 'NZDCHF', 'CADCHF',
+  'XAUUSD', 'DXY',
 ]
 
 const TIMEFRAMES = [
@@ -19,16 +23,18 @@ const TIMEFRAMES = [
 ]
 
 const WATCHLIST_DATA = [
-  { symbol: 'AUDCAD', last: '0.96515', chg: '+5.07%' },
-  { symbol: 'AUDCHF', last: '0.54503', chg: '+3.15%' },
-  { symbol: 'AUDJPY', last: '108.576', chg: '+8.28%' },
-  { symbol: 'AUDNZD', last: '1.17854', chg: '+3.32%' },
-  { symbol: 'AUDUSD', last: '0.70698', chg: '+7.89%' },
-  { symbol: 'EURUSD', last: '1.18439', chg: '+2.46%' },
-  { symbol: 'GBPUSD', last: '1.33821', chg: '+4.12%' },
-  { symbol: 'USDJPY', last: '142.350', chg: '-1.85%' },
-  { symbol: 'XAUUSD', last: '2355.40', chg: '+0.67%' },
-  { symbol: 'NAS100', last: '19580.0', chg: '+1.24%' },
+  { symbol: 'EURUSD', last: '-', chg: '-' },
+  { symbol: 'GBPUSD', last: '-', chg: '-' },
+  { symbol: 'USDJPY', last: '-', chg: '-' },
+  { symbol: 'USDCHF', last: '-', chg: '-' },
+  { symbol: 'AUDUSD', last: '-', chg: '-' },
+  { symbol: 'NZDUSD', last: '-', chg: '-' },
+  { symbol: 'USDCAD', last: '-', chg: '-' },
+  { symbol: 'XAUUSD', last: '-', chg: '-' },
+  { symbol: 'DXY', last: '-', chg: '-' },
+  { symbol: 'EURJPY', last: '-', chg: '-' },
+  { symbol: 'GBPJPY', last: '-', chg: '-' },
+  { symbol: 'EURGBP', last: '-', chg: '-' },
 ]
 
 export default function Trading() {
@@ -75,7 +81,8 @@ export default function Trading() {
     w.symbol.toLowerCase().includes(watchSearch.toLowerCase())
   )
 
-  const widgetUrl = `https://s.tradingview.com/widgetembed/?frameElementId=tradingview_trading&symbol=${symbol}&interval=${timeframe}&hidesidetoolbar=0&symboledit=0&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&withdateranges=1&showpopupbutton=0&locale=en`
+  const tvSymbol = symbol === 'DXY' ? 'TVC:DXY' : `FX:${symbol}`
+  const widgetUrl = `https://s.tradingview.com/widgetembed/?frameElementId=tradingview_trading&symbol=${tvSymbol}&interval=${timeframe}&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&withdateranges=1&showpopupbutton=0&locale=en&allow_symbol_change=1&hotlist=1&calendar=1`
 
   return (
     <div className="-m-4 md:-m-6 flex flex-col h-[calc(100vh-80px)] md:h-[calc(100vh-48px)]">

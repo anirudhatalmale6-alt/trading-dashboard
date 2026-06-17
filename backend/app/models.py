@@ -106,10 +106,27 @@ class EntryModel(Base):
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
 
+class TradingAccount(Base):
+    __tablename__ = "trading_accounts"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), nullable=False, default="Account A")
+    balance = Column(Float, nullable=False, default=0)
+    equity = Column(Float, nullable=False, default=0)
+    currency = Column(String(10), default="USD")
+    leverage = Column(String(20), nullable=True)
+    server = Column(String(100), nullable=True)
+    is_active = Column(Boolean, default=True)
+    color = Column(String(20), default="#338bff")
+    created_at = Column(DateTime, server_default=func.now())
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+
+
 class AccountInfo(Base):
     __tablename__ = "account_info"
 
     id = Column(Integer, primary_key=True, index=True)
+    account_id = Column(Integer, ForeignKey("trading_accounts.id", ondelete="SET NULL"), nullable=True)
     balance = Column(Float, nullable=False, default=0)
     equity = Column(Float, nullable=False, default=0)
     margin = Column(Float, nullable=True, default=0)

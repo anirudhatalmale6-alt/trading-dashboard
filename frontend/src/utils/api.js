@@ -77,4 +77,9 @@ export const api = {
     form.append('file', file)
     return request(`/edge/${id}/screenshot`, { method: 'POST', body: form })
   },
+
+  getAccounts: () => request('/accounts'),
+  createAccount: (data) => request('/accounts', { method: 'POST', body: data }),
+  updateAccount: (id, data) => request(`/accounts/${id}`, { method: 'PUT', body: data }),
+  deleteAccount: (id) => request(`/accounts/${id}`, { method: 'DELETE' }),
 }
